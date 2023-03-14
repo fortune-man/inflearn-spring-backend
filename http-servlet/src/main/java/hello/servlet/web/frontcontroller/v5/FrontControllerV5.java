@@ -5,7 +5,11 @@ import hello.servlet.web.frontcontroller.MyView;
 import hello.servlet.web.frontcontroller.v3.controller.MemberFormControllerV3;
 import hello.servlet.web.frontcontroller.v3.controller.MemberListControllerV3;
 import hello.servlet.web.frontcontroller.v3.controller.MemberSaveControllerV3;
+import hello.servlet.web.frontcontroller.v4.controller.MemberFormControllerV4;
+import hello.servlet.web.frontcontroller.v4.controller.MemberListControllerV4;
+import hello.servlet.web.frontcontroller.v4.controller.MemberSaveControllerV4;
 import hello.servlet.web.frontcontroller.v5.adapter.ControllerV3HandlerAdapter;
+import hello.servlet.web.frontcontroller.v5.adapter.ControllerV4HandlerAdapter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,10 +38,16 @@ public class FrontControllerV5 extends HttpServlet {
         HANDLER_MAPPING_MAP.put("/front-controller/v5/v3/members/new-form", new MemberFormControllerV3());
         HANDLER_MAPPING_MAP.put("/front-controller/v5/v3/members/save", new MemberSaveControllerV3());
         HANDLER_MAPPING_MAP.put("/front-controller/v5/v3/members", new MemberListControllerV3());
+
+        // v4 추가
+        HANDLER_MAPPING_MAP.put("/front-controller/v5/v4/members/new-form", new MemberFormControllerV4());
+        HANDLER_MAPPING_MAP.put("/front-controller/v5/v4/members/save", new MemberSaveControllerV4());
+        HANDLER_MAPPING_MAP.put("/front-controller/v5/v4/members", new MemberListControllerV4());
     }
 
     private void initializeHandlerAdapters() {
         HANDLER_ADAPTERS.add(new ControllerV3HandlerAdapter());
+        HANDLER_ADAPTERS.add(new ControllerV4HandlerAdapter());
     }
 
     @Override
@@ -80,7 +90,7 @@ public class FrontControllerV5 extends HttpServlet {
     }
 
     private Object getHandler(HttpServletRequest request) {
-        // 요청이 오면 HANDLER_MAPPING_MAP에서 조회한 URI에 대응하는 핸들러 조회하여 반환
+        // 요청이 오면 HANDLER_MAPPING_MAP에서 조회한 URI에 대응하는 각 핸들러를 조회하여 반환
         String requestURI = request.getRequestURI();
         return HANDLER_MAPPING_MAP.get(requestURI);
     }
